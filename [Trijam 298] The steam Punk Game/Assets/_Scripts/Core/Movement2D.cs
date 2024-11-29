@@ -1,9 +1,11 @@
 using _Scripts.Player;
-using UnityEditor;
 using UnityEngine;
 
 namespace _Scripts.Core
 {
+    /// <summary>
+    /// This basic abstract Movement2D class for a 2D platformer
+    /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Movement2D : MonoBehaviour
@@ -26,9 +28,13 @@ namespace _Scripts.Core
         }
 
 
-        protected internal virtual void OnMove(Vector2 direction)
+        /// <summary>
+        /// changes the objects velocity to the new direction
+        /// </summary>
+        /// <param name="newDirection"></param>
+        protected internal virtual void OnMove(Vector2 newDirection)
         {
-            this.direction = direction;
+            direction = newDirection;
 
             rigidbody2D.linearVelocity = isGrounded 
                 ? stats.speed * new Vector2(direction.x, 0) 
@@ -37,6 +43,9 @@ namespace _Scripts.Core
             CheckDirection();
         }
 
+        /// <summary>
+        /// Check the direction and flips the object sprite
+        /// </summary>
         private void CheckDirection()
         {
             spriteRenderer.flipX = rigidbody2D.linearVelocityX switch
@@ -47,6 +56,9 @@ namespace _Scripts.Core
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected internal virtual void OnJump()
         {
             if (isGrounded)
