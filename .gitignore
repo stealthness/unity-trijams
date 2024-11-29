@@ -2,13 +2,21 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+**/[Ii]gnore/
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Ll]ogs/
+**/[Uu]ser[Ss]ettings/
+**/[Pp]roject[Ss]ettings/
+**/[Ss]cenes/
+**/[Tt]ile[Mm]ap/
+**/[Tt]ile[Mm]aps/
+**/[Aa]rt/
+**/[Ss]ound/
+**/[Ff]onts/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -70,3 +78,19 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+*.meta
+*.json
+.vsconfig
+*.sln
+.unity
+
+
+*/TextMesh\ Pro/
+**/TextMesh Pro/
+
+**/[Aa]udio/
+**/Audio/
+
+*.iml
+.idea/
