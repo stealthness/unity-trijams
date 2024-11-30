@@ -31,6 +31,7 @@ namespace _Scripts.Managers
         /// </summary>
         void Start()
         {
+            Debug.Log("GameManager is starting");
             if (!activateStartMenuOnStart)
             {
                 gameState = GameState.Playing;
