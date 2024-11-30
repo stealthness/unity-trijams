@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,7 +14,8 @@ namespace _Scripts
         public GameObject fixSymbolObject;
         private Animator _steamAnimator;
         
-        
+        [SerializeField] private bool isBroken;
+        [SerializeField] private bool isRepairable;
 
         private void Awake()
         {
@@ -33,14 +33,16 @@ namespace _Scripts
     
         public void DestroyPipe()
         {
-            ToggleSteam(true);
+            ToggleSteam(true); 
             _steamAnimator.Play("Steam");
+            isBroken = true;
         }
 
-        public void FixPipe()
+        private void FixPipe()
         {
-            ToggleSteam(false);
+            ToggleSteam(false); 
         }
+        
         
         private void ToggleSteam(bool state)
         {
@@ -49,22 +51,34 @@ namespace _Scripts
             _steamAnimator.enabled = state;
         }
         
-        
+        /// <summary>
+        /// Repairs the pipe, if it is repairable. Is called when the player is in the trigger area
+        /// </summary>
+        public void RepairPipe()
+        {
+            if (isRepairable)
+            {
+                FixPipe();
+                isBroken = false;
+                isRepairable = false;
+            }
+        }
         
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (isBroken && other.CompareTag("Player"))
             {
-                Debug.Log("Player has reached the end of the pipe");
+                isRepairable = true;
                 fixSymbolObject.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (isBroken && other.CompareTag("Player"))
             {
+                isRepairable = false;
                 fixSymbolObject.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
