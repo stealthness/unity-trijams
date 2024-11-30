@@ -1,6 +1,9 @@
-namespace _Scripts
+using UnityEngine;
+
+namespace _Scripts.Objects
 {
-    public class Engine
+    [RequireComponent(typeof(AudioSource))]
+    public class Engine : MonoBehaviour
     {
         
     }

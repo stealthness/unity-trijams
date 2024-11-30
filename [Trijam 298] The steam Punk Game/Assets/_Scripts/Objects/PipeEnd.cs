@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Scripts
+namespace _Scripts.Objects
 {
     public class PipeEnd : MonoBehaviour
     {
@@ -10,6 +10,7 @@ namespace _Scripts
         public Sprite brokenPipeEnd;
         private SpriteRenderer _pipeSpriteRenderer;
         private SpriteRenderer _steamSpriteRenderer;
+        private AudioSource _steamAudio;
         public GameObject steam;
         public GameObject fixSymbolObject;
         private Animator _steamAnimator;
@@ -20,6 +21,7 @@ namespace _Scripts
         private void Awake()
         {
             _pipeSpriteRenderer= GetComponent<SpriteRenderer>();
+            _steamAudio = steam.GetComponentInChildren<AudioSource>();
         }
 
 
@@ -35,12 +37,15 @@ namespace _Scripts
         {
             ToggleSteam(true); 
             _steamAnimator.Play("Steam");
+            _steamAudio.Play();
             isBroken = true;
         }
 
         private void FixPipe()
         {
             ToggleSteam(false); 
+                isBroken = false;
+                _steamAudio.Stop();
         }
         
         
@@ -59,8 +64,6 @@ namespace _Scripts
             if (isRepairable)
             {
                 FixPipe();
-                isBroken = false;
-                isRepairable = false;
             }
         }
         
@@ -76,7 +79,7 @@ namespace _Scripts
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (isBroken && other.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 isRepairable = false;
                 fixSymbolObject.GetComponent<SpriteRenderer>().enabled = false;
