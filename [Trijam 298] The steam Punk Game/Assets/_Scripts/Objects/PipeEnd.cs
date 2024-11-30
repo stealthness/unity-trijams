@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace _Scripts.Objects
 {
     public class PipeEnd : MonoBehaviour
     {
+        public UnityEvent FixingPipe;
         
         public Sprite fixedPipedEnd;
         public Sprite brokenPipeEnd;
@@ -61,9 +63,11 @@ namespace _Scripts.Objects
         /// </summary>
         public void RepairPipe()
         {
+            Debug.Log("PE: Repairing Pipe : " + isRepairable);
             if (isRepairable)
             {
                 FixPipe();
+                FixingPipe.Invoke();
             }
         }
         

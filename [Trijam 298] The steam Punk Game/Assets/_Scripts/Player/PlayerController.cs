@@ -8,12 +8,16 @@ namespace _Scripts.Player
         private PlayerMovement2D _playerMovement2D;
         private PlayerState _playerState;
         private Animator _animator;
+        private AudioSource _audioSource;
+        public AudioClip fixingClip;
         public Sprite playerSprite;
         
         private void Awake()
         {
             _animator = GetComponent<Animator>();   
             _playerMovement2D = GetComponent<PlayerMovement2D>();
+            _audioSource = GetComponent<AudioSource>();
+            
         }
 
         private void Start()
@@ -25,7 +29,7 @@ namespace _Scripts.Player
 
         public void Move(InputAction.CallbackContext context)
         {
-            if (_playerState == PlayerState.Dead)
+            if (_playerState == PlayerState.Dead || _playerState == PlayerState.Fixing)
             {
                 return;
             }
@@ -43,7 +47,7 @@ namespace _Scripts.Player
         
         public void Jump(InputAction.CallbackContext context)
         {
-            if (_playerState == PlayerState.Dead)
+            if (_playerState == PlayerState.Dead || _playerState == PlayerState.Fixing)
             {
                 return;
             }
@@ -54,7 +58,26 @@ namespace _Scripts.Player
             }
         }
         
-
+        public void FixPipe()
+        {
+            if (_playerState == PlayerState.Dead)
+            {
+                return;
+            }
+            Debug.Log("PC: Fix Pipe");   
+            _playerState = PlayerState.Fixing;
+            //_animator.Play("Fix");
+            //var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
+            var delay = 3f;
+            _audioSource.PlayOneShot(fixingClip);
+            Invoke(nameof(EndFixing), delay);
+        }
+        
+        public void EndFixing()
+        {
+            _audioSource.Stop();
+            _playerState = PlayerState.Alive;
+        }
         
         public void BurnPlayer()
         {
@@ -78,7 +101,8 @@ namespace _Scripts.Player
     public enum PlayerState
      {
          Alive,
-         Dead
+         Dead,
+         Fixing
      }
 }
 

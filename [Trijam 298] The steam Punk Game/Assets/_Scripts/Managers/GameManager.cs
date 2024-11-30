@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Scripts.Managers
@@ -42,6 +43,47 @@ namespace _Scripts.Managers
                 gameState = GameState.StartMenu;
             }
         }
+
+
+        private void Update()
+        {
+            switch (gameState)
+            {
+                case GameState.StartMenu:
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        gameState = GameState.Playing;
+                        StartGame();
+                    }
+                    break;
+                case GameState.Playing:
+                case GameState.Paused:
+                    CheckPause();
+                    CheckRestart();
+                    break;
+                case GameState.GameOver:
+                    CheckRestart();
+                    break;
+                        
+            }
+        }
+        
+        private void CheckPause()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnTogglePause(true);
+            }
+        }
+        
+        private void CheckRestart()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OnRestartGame();
+            }
+        }
+        
 
         /// <summary>
         /// Starts the game
