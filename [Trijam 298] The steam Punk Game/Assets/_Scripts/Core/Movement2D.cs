@@ -13,7 +13,7 @@ namespace _Scripts.Core
         [SerializeField] internal Movement2DData stats;
         [SerializeField] protected bool isGrounded;
         protected Rigidbody2D rigidbody2D;
-        protected SpriteRenderer spriteRenderer;
+        protected internal SpriteRenderer spriteRenderer;
         protected Vector2 direction;
 
         protected virtual void Awake()

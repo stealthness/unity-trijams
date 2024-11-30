@@ -15,6 +15,7 @@ namespace _Scripts.Player
             base.Awake();
             _boxCollider2D = GetComponent<BoxCollider2D>();
             _playerController = GetComponent<PlayerController>();
+            spriteRenderer.sprite = _playerController.playerSprite;
         
 
         }
@@ -28,6 +29,16 @@ namespace _Scripts.Player
             isGrounded = hit && hit.collider.CompareTag("Ground");
             
         
+        }
+        
+        /// <summary>
+        /// DeadStop is called when the player dies. It stops the player from moving and falling.
+        /// </summary>
+        public void DeadStop()
+        {
+            direction = Vector2.zero;
+            rigidbody2D.gravityScale = 0;
+            rigidbody2D.linearVelocity = Vector2.zero;
         }
     }
 }

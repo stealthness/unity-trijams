@@ -7,16 +7,19 @@ namespace _Scripts.Player
     {
         private PlayerMovement2D _playerMovement2D;
         private PlayerState _playerState;
+        private Animator _animator;
+        public Sprite playerSprite;
         
         private void Awake()
         {
- 
+            _animator = GetComponent<Animator>();   
             _playerMovement2D = GetComponent<PlayerMovement2D>();
         }
 
         private void Start()
         {
             _playerState = PlayerState.Alive;
+            _playerMovement2D.spriteRenderer.sprite = playerSprite;
         }
 
 
@@ -50,6 +53,26 @@ namespace _Scripts.Player
                 _playerMovement2D.OnJump();
             }
         }
+        
+
+        
+        public void BurnPlayer()
+        {
+            Debug.Log("PC: Burn Player");
+            _playerState = PlayerState.Dead;
+            _animator.Play("Burn");
+            _playerMovement2D.DeadStop();
+            var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
+            Invoke(nameof(ShowDeadPlayer), delay);
+            
+        }
+
+        public void ShowDeadPlayer()
+        {
+            _animator.enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
+        
     }
     
     public enum PlayerState
