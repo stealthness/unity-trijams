@@ -33,5 +33,11 @@ namespace _Scripts.Managers
             startMenu.SetActive(true);
         }
         
+        public void HideStartMenu()
+        {
+            Debug.Log("Hide Start Menu");
+            startMenu.SetActive(false);
+        }
+        
     }
 }

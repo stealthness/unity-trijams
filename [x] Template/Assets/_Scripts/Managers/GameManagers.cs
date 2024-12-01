@@ -51,5 +51,11 @@ namespace _Scripts.Managers
             Time.timeScale = 0;
         }
 
+        public void StartGAme()
+        {
+            Time.timeScale = 1;
+            Debug.Log("Start Game");
+        }
+
     }
 }
