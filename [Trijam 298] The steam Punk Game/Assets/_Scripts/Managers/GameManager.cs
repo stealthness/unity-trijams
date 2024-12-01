@@ -115,7 +115,13 @@ namespace _Scripts.Managers
                 Time.timeScale = 1;
             }
         }
-        
+
+        public void GameOver(string steamPressureTooHigh)
+        {
+            Debug.Log("Game Over: " + steamPressureTooHigh);
+            gameState = GameState.GameOver;
+            Time.timeScale = 0;
+        }
     }
 
     enum GameState
