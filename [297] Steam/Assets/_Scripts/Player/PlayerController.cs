@@ -26,6 +26,7 @@ namespace _Scripts.Player
         private void Start()
         {
             Debug.Log("Player Controller is ready");
+            _playerState = PlayerState.Alive;
         }
         
         private void Update()
