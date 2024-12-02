@@ -16,9 +16,14 @@ namespace _Scripts.Player
         private Animator _animator;
         private AudioSource _audioSource;
         public AudioClip fixingClip;
+        public AudioClip FireUp;
+        [SerializeField] private bool isGrounded;
+        [SerializeField] private BoxCollider2D _boxCollider2D;
+        [SerializeField] private float _jumpForce = 7f;
 
         private void Awake()
         {
+            _boxCollider2D = GetComponent<BoxCollider2D>();
             _audioSource = GetComponent<AudioSource>();
             _rb = GetComponent<Rigidbody2D>();
             _rb.freezeRotation = true;
@@ -36,11 +41,22 @@ namespace _Scripts.Player
         {
             if (_playerState == PlayerState.Alive)
             {
-                transform.position += new Vector3(_dir.x, 0, 0) * (_speed * Time.deltaTime);
+                _rb.linearVelocityX = _dir.x * _speed;
+                CheckGrounded();
             }
             
         }
-        
+
+        private void CheckGrounded()
+        {
+            var center = _boxCollider2D.bounds.center;
+            var size = _boxCollider2D.size;
+            var hit = Physics2D.BoxCast(center, size , 0, Vector2.down, 0.05f, LayerMask.GetMask("Ground"));
+            
+            isGrounded = hit && hit.collider.CompareTag("Ground");
+            
+        }
+
         public void OnMove(InputAction.CallbackContext context)
         {
             if (_playerState == PlayerState.Dead || _playerState == PlayerState.Fixing)
@@ -57,6 +73,20 @@ namespace _Scripts.Player
             if (context.canceled)
             {
                 _dir = Vector2.zero;
+            }
+        }
+        
+        
+        public void Jump(InputAction.CallbackContext context)
+        {
+            if (_playerState == PlayerState.Dead || _playerState == PlayerState.Fixing)
+            {
+                return;
+            }
+            
+            if (context.phase == InputActionPhase.Performed && isGrounded)
+            {
+                _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             }
         }
         

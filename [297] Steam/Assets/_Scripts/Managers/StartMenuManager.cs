@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Scripts.Managers
 {
@@ -9,6 +11,7 @@ namespace _Scripts.Managers
         public GameObject startMenu;
         public GameObject levelComplete;
         public GameObject gameOverPanel;
+        public TextMeshProUGUI _messageTextBox;
         
         private void Awake()
         {
@@ -27,6 +30,7 @@ namespace _Scripts.Managers
         {
             Debug.Log("Start Menu Manager is ready");
             startMenu.SetActive(false);
+            ShowMessage("Fix at least 3 engine to exit");
         }
 
         public void ShowStartMenu()
@@ -49,6 +53,19 @@ namespace _Scripts.Managers
         public void ShowGameOver()
         {
             gameOverPanel.SetActive(true);
+        }
+
+        public void ShowMessage(string youNeedToFixAllEnginesFirst)
+        {
+            _messageTextBox.enabled = true;
+            _messageTextBox.text = youNeedToFixAllEnginesFirst;
+            Invoke(nameof(HideMessage), 5f);
+        }
+        
+        public void HideMessage()
+        {
+            _messageTextBox.text = "";
+            _messageTextBox.enabled = false;
         }
     }
 }
