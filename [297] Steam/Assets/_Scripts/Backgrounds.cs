@@ -1,16 +1,10 @@
+
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Backgrounds : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Transform Player;
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

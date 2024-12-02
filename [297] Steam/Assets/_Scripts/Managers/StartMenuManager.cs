@@ -7,6 +7,8 @@ namespace _Scripts.Managers
         
         public static StartMenuManager Instance;
         public GameObject startMenu;
+        public GameObject levelComplete;
+        public GameObject gameOverPanel;
         
         private void Awake()
         {
@@ -38,6 +40,15 @@ namespace _Scripts.Managers
             Debug.Log("Hide Start Menu");
             startMenu.SetActive(false);
         }
-        
+
+        public void ShowLevelComplete()
+        {
+            levelComplete.SetActive(true);
+        }
+
+        public void ShowGameOver()
+        {
+            gameOverPanel.SetActive(true);
+        }
     }
 }

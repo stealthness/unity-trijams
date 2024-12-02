@@ -14,9 +14,12 @@ namespace _Scripts.Player
         [SerializeField] private float _speed = 5f;
         private PlayerState _playerState = PlayerState.Alive;
         private Animator _animator;
+        private AudioSource _audioSource;
+        public AudioClip fixingClip;
 
         private void Awake()
         {
+            _audioSource = GetComponent<AudioSource>();
             _rb = GetComponent<Rigidbody2D>();
             _rb.freezeRotation = true;
             _sr = GetComponent<SpriteRenderer>();
@@ -70,22 +73,50 @@ namespace _Scripts.Player
             }
         }
         
-        public void BurnPlayer()
-        {
-            Debug.Log("PC: Burn Player");
-            _playerState = PlayerState.Dead;
-            _animator.Play("Burn");
-            _rb.linearVelocity = Vector2.zero;
-            _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
-            Invoke(nameof(ShowDeadPlayer), delay);
-            
-        }
+
         public void ShowDeadPlayer()
         {
             _animator.enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
             GameManager.Instance.GameOver();
+        }
+        
+        public void FixPipe()
+        {
+            if (_playerState == PlayerState.Dead)
+            {
+                return;
+            }
+            Debug.Log("PC: Fix Pipe");   
+            _playerState = PlayerState.Fixing;
+            //_animator.Play("Fix");
+            //var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
+            var delay = 3f;
+            _audioSource.PlayOneShot(fixingClip);
+            Invoke(nameof(EndFixing), delay);
+        }
+        
+        public void EndFixing()
+        {
+            _audioSource.Stop();
+            _playerState = PlayerState.Alive;
+        }
+        
+        public void BurnPlayer()
+        {
+            Debug.Log("PC: Burn Player");
+            _playerState = PlayerState.Dead;
+            _animator.Play("Burn");
+            DeadStop();
+            var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
+            Invoke(nameof(ShowDeadPlayer), delay);
+            
+        }
+
+        private void DeadStop()
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
     
