@@ -6,7 +6,7 @@ namespace _Scripts
 {
     public class Blob : MonoBehaviour
     {
-        [SerializeField] private float _throwForce = 20f;
+        [SerializeField] private float _throwForce = 30f;
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,9 +18,16 @@ namespace _Scripts
             {
                 PlayerController player = other.GetComponent<PlayerController>();
                 Vector2 dir = (player.transform.position - transform.position).normalized;
-                player.Throw(dir, _throwForce);
-                Destroy (gameObject);
+                player.Throw(dir * _throwForce);
+                GetComponent<BoxCollider2D>().enabled = false;
+                Invoke(nameof(delayedDestroy), 0.1f);
+                
             }
+        }
+        
+        private void delayedDestroy()
+        {
+            Destroy(gameObject);
         }
     }
 }

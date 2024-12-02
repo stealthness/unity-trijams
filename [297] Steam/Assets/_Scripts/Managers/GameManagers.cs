@@ -11,7 +11,7 @@ namespace _Scripts.Managers
         public static GameManager Instance;
         
         [SerializeField] private bool _startMenuAtStart = false;
-        [SerializeField] private bool musicOnAtStart = false;
+        [SerializeField] private bool musicOnAtStart = true;
         AudioSource _audioSource;
 
 
@@ -65,7 +65,7 @@ namespace _Scripts.Managers
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
-                ToggleMusic(musicOnAtStart);
+                ToggleMusic(!_audioSource.isPlaying);
             }
         }
         
