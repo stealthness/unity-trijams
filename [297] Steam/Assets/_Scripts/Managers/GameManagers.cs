@@ -11,6 +11,8 @@ namespace _Scripts.Managers
         public static GameManager Instance;
         
         [SerializeField] private bool _startMenuAtStart = false;
+        [SerializeField] private bool musicOnAtStart = false;
+        AudioSource _audioSource;
 
 
         private void Awake()
@@ -23,6 +25,7 @@ namespace _Scripts.Managers
             {
                 Destroy(this.gameObject);
             }
+            _audioSource = GetComponent<AudioSource>();
         }
 
 
@@ -36,15 +39,33 @@ namespace _Scripts.Managers
             else
             {
                 Time.timeScale = 1;
+                StartMenuManager.Instance.ShowGameStart();
             }
             Debug.Log("GameManager is ready");
+            ToggleMusic(musicOnAtStart);
         }
-        
+
+        private void ToggleMusic(bool musicOn)
+        {
+            if (musicOn)
+            {
+                _audioSource.Play();
+            }
+            else
+            {
+                _audioSource.Stop();
+            }
+        }
+
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 RestartGame();
+            }
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                ToggleMusic(musicOnAtStart);
             }
         }
         

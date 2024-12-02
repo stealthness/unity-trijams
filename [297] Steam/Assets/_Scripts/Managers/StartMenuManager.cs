@@ -11,6 +11,7 @@ namespace _Scripts.Managers
         public GameObject startMenu;
         public GameObject levelComplete;
         public GameObject gameOverPanel;
+        public GameObject gameUI;
         public TextMeshProUGUI _messageTextBox;
         
         private void Awake()
@@ -30,6 +31,14 @@ namespace _Scripts.Managers
         {
             Debug.Log("Start Menu Manager is ready");
             startMenu.SetActive(false);
+            gameUI.SetActive(true);
+        }
+
+
+        public void ShowGameStart()
+        {
+            startMenu.SetActive(false);
+            gameUI.SetActive(true);
             ShowMessage("Fix at least 3 engine to exit");
         }
 
@@ -37,6 +46,8 @@ namespace _Scripts.Managers
         {
             Debug.Log("Show Start Menu");
             startMenu.SetActive(true);
+            gameUI.SetActive(false);
+            
         }
         
         public void HideStartMenu()

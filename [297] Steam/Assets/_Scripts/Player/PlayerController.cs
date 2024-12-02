@@ -148,6 +148,12 @@ namespace _Scripts.Player
             _rb.linearVelocity = Vector2.zero;
             _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
+
+        public void Throw(Vector2 dir, float pushBack)
+        {
+            Debug.Log("PC: Throw");
+            _rb.AddForce(pushBack * dir, ForceMode2D.Impulse);
+        }
     }
     
     
