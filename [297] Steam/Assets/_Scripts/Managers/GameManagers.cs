@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-
 namespace _Scripts.Managers
 {
     /// <summary>
@@ -62,7 +60,7 @@ namespace _Scripts.Managers
         /// <summary>
         /// Toggle the game's music on or off.
         /// </summary>
-        /// <param name="musicOn"></param>
+        /// <param name="musicOn">Whether the music should be on or off.</param>
         private void ToggleMusic(bool musicOn)
         {
             _audioSource.enabled = musicOn;
