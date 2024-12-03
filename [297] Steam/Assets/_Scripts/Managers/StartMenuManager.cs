@@ -12,8 +12,10 @@ namespace _Scripts.Managers
         public GameObject levelComplete;
         public GameObject gameOverPanel;
         public GameObject gameUI;
+        public GameObject MessagePanel;
         public TextMeshProUGUI _messageTextBox;
-        
+        [SerializeField] private float messageHideDelay = 5f;
+
         private void Awake()
         {
             if (StartMenuManager.Instance == null)
@@ -64,17 +66,24 @@ namespace _Scripts.Managers
             gameOverPanel.SetActive(true);
         }
 
-        public void ShowMessage(string youNeedToFixAllEnginesFirst)
+        public void ShowMessage(string message)
         {
-            _messageTextBox.enabled = true;
-            _messageTextBox.text = youNeedToFixAllEnginesFirst;
-            Invoke(nameof(HideMessage), 5f);
+            if (MessagePanel.activeSelf)
+            {
+                CancelInvoke();
+            }
+            else
+            {
+                MessagePanel.SetActive(true);
+            }
+            _messageTextBox.text = message;
+            Invoke(nameof(HideMessage), messageHideDelay);
         }
         
         public void HideMessage()
         {
+            MessagePanel.SetActive(false);
             _messageTextBox.text = "";
-            _messageTextBox.enabled = false;
         }
     }
 }
