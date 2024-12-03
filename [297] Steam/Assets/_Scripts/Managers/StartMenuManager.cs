@@ -30,8 +30,6 @@ namespace _Scripts.Managers
         void Start()
         {
             Debug.Log("Start Menu Manager is ready");
-            startMenu.SetActive(false);
-            gameUI.SetActive(true);
         }
 
 

@@ -42,7 +42,6 @@ namespace _Scripts.Managers
             else
             {
                 Time.timeScale = 1;
-                StartMenuManager.Instance.ShowGameStart();
                 StartGame();
             }
             ToggleMusic(musicOnAtStart);
@@ -108,8 +107,9 @@ namespace _Scripts.Managers
         /// </summary>
         public void StartGame()
         {
-            Time.timeScale = 1;
             Debug.Log("Start Game");
+            Time.timeScale = 1;
+            StartMenuManager.Instance.ShowGameStart();
         }
 
         /// <summary>
