@@ -6,13 +6,12 @@ namespace _Scripts.Objects
     [RequireComponent(typeof(BoxCollider2D))]
     public class SteamEngine : MonoBehaviour
     {
-        private AudioSource _audioSource;
         public Sprite engineOnSprite;
         public Sprite engineOffSprite;
-        [SerializeField] private bool _playerInReach;
+        [SerializeField] private bool playerInReach;
         
+        private AudioSource _audioSource;
         private BoxCollider2D _boxCollider2D;
-        
         private SpriteRenderer _spriteRenderer;
 
         private void Awake()
@@ -25,15 +24,22 @@ namespace _Scripts.Objects
 
         private void Start()
         {
-            _spriteRenderer.sprite = engineOffSprite;
-            _audioSource.Stop();
-            
+            SetEngine(false);
         }
 
-        
+        private void SetEngine(bool isOn)
+        {
+            _spriteRenderer.sprite = isOn? engineOnSprite : engineOffSprite;
+            if (isOn)
+                _audioSource.Stop();
+            else
+                _audioSource.Play();
+        }
+
+
         void Update()
         {
-            if (_playerInReach)
+            if (playerInReach)
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -44,10 +50,9 @@ namespace _Scripts.Objects
         
         public void StartEngine()
         {
-            _spriteRenderer.sprite = engineOnSprite;
+            SetEngine(true);
             SteamManager.Instance.AddPressure(20);
             Exit.Instance.EngineFixed();
-            _audioSource.Play();
 
         }
 
@@ -56,13 +61,14 @@ namespace _Scripts.Objects
         {
             if (other.CompareTag("Player"))
             {
-                _playerInReach = true;
+                StartMenuManager.Instance.ShowMessage("Press E to start the engine");
+                playerInReach = true;
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            _playerInReach = false;
+            playerInReach = false;
         }
     }
 }
