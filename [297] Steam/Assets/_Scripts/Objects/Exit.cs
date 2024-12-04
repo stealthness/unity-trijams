@@ -45,6 +45,7 @@ public class Exit : MonoBehaviour
             if (_enigineCount <= 0)
             {
                             Debug.Log("Player has reached the exit");
+                            GetComponent<AudioSource>().Play();
                             _spriteRenderer.sprite = OpenDoorSprite;
                             GameManager.Instance.LevelComplete();
             }

@@ -19,6 +19,7 @@ namespace _Scripts.Player
 
         public AudioClip fixingClip;
         public AudioClip FireUp;
+        public AudioClip Scream;
         public CameraFollow cam;
         
         [SerializeField] private bool isGrounded;
@@ -61,9 +62,8 @@ namespace _Scripts.Player
             {
                 isFalling = true;
                 startFallingHeight = transform.position.y;
-            }
-            
-            if (isFalling && _rb.linearVelocityY >= 0)
+            } 
+            else if (isFalling && _rb.linearVelocityY >= 0)
             {
                 isFalling = false;
                 startFallingHeight = transform.position.y;
@@ -78,6 +78,7 @@ namespace _Scripts.Player
 
         private void FallDeath()
         {
+            _audioSource.PlayOneShot(Scream);
             _playerState = PlayerState.Dead;
             cam.StopFollowing();
             
@@ -173,6 +174,7 @@ namespace _Scripts.Player
             Debug.Log("PC: Burn Player");
             _playerState = PlayerState.Dead;
             _animator.Play("Burn");
+            _audioSource.PlayOneShot(Scream);
             DeadStop();
             var delay = _animator.GetCurrentAnimatorStateInfo(0).length;
             Invoke(nameof(ShowDeadPlayer), delay);
