@@ -9,6 +9,7 @@ namespace _Scripts.Objects
         public Sprite engineOnSprite;
         public Sprite engineOffSprite;
         [SerializeField] private bool playerInReach;
+        [SerializeField] private bool engineOn = false;
         
         private AudioSource _audioSource;
         private BoxCollider2D _boxCollider2D;
@@ -20,20 +21,21 @@ namespace _Scripts.Objects
             _boxCollider2D.isTrigger = true;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
+            _audioSource.Stop();
         }
 
         private void Start()
         {
-            SetEngine(false);
+            SetEngine(engineOn);
         }
 
         private void SetEngine(bool isOn)
         {
             _spriteRenderer.sprite = isOn? engineOnSprite : engineOffSprite;
             if (isOn)
-                _audioSource.Stop();
-            else
                 _audioSource.Play();
+            else
+                _audioSource.Stop();
         }
 
 
@@ -50,7 +52,9 @@ namespace _Scripts.Objects
         
         public void StartEngine()
         {
-            SetEngine(true);
+            Debug.Log("Engine started");
+            engineOn = true;
+            SetEngine(engineOn);
             SteamManager.Instance.AddPressure(20);
             Exit.Instance.EngineFixed();
 

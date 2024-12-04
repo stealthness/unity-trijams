@@ -47,7 +47,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fcfbf4db12722a648be4aca0290383ea, type: 3}
   m_Resource: {fileID: 8300000, guid: fcfbf4db12722a648be4aca0290383ea, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.254
   m_Pitch: 1
   Loop: 1
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   engineOnSprite: {fileID: 2102226100, guid: 2e2b16d523bb08f4f98ef0f06885f770, type: 3}
   engineOffSprite: {fileID: 142617970, guid: 2e2b16d523bb08f4f98ef0f06885f770, type: 3}
-  _playerInReach: 0
+  playerInReach: 0
 --- !u!61 &2911260850071606348
 BoxCollider2D:
   m_ObjectHideFlags: 0
