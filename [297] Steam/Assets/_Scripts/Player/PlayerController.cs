@@ -2,24 +2,31 @@ using System;
 using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Player
 {
     public class PlayerController : MonoBehaviour
     {
         
-        Vector2 _dir;
+        private Vector2 _dir;
         private Rigidbody2D _rb;
         private SpriteRenderer _sr;
-        [SerializeField] private float _speed = 5f;
         private PlayerState _playerState = PlayerState.Alive;
         private Animator _animator;
         private AudioSource _audioSource;
+        private BoxCollider2D _boxCollider2D;
+
         public AudioClip fixingClip;
         public AudioClip FireUp;
+        public CameraFollow cam;
+        
         [SerializeField] private bool isGrounded;
-        [SerializeField] private BoxCollider2D _boxCollider2D;
-        [SerializeField] private float _jumpForce = 7f;
+        [SerializeField] private bool isFalling;
+        [SerializeField] private float startFallingHeight;
+        [SerializeField] private float movingSpeed = 5f;
+        [SerializeField] private float maxFallingDistance = 10f;
+        [SerializeField] private float jumpForce = 7f;
 
         private void Awake()
         {
@@ -39,11 +46,40 @@ namespace _Scripts.Player
         
         private void Update()
         {
+            if (_playerState == PlayerState.Dead)
+            {
+                return;
+            }
+            
             if (_playerState == PlayerState.Alive)
             {
-                _rb.linearVelocityX = _dir.x * _speed;
+                _rb.linearVelocityX = _dir.x * movingSpeed;
                 CheckGrounded();
             }
+
+            if (!isFalling && _rb.linearVelocityY < 0)
+            {
+                isFalling = true;
+                startFallingHeight = transform.position.y;
+            }
+            
+            if (isFalling && _rb.linearVelocityY >= 0)
+            {
+                isFalling = false;
+                startFallingHeight = transform.position.y;
+            }
+            
+            if (isFalling && transform.position.y < startFallingHeight - maxFallingDistance)
+            {
+                FallDeath();
+            }
+            
+        }
+
+        private void FallDeath()
+        {
+            _playerState = PlayerState.Dead;
+            cam.StopFollowing();
             
         }
 
@@ -86,7 +122,7 @@ namespace _Scripts.Player
             
             if (context.phase == InputActionPhase.Performed && isGrounded)
             {
-                _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+                _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
         }
         
