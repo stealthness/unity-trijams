@@ -47,7 +47,7 @@ namespace _Scripts.Player
         public void OnFire(InputAction.CallbackContext context)
         {
             Debug.Log("Fire");
-            if (!fireCooldown)
+            if (!fireCooldown  && context.performed)
             {
                 var position = (leftShipActiveControl) ? _leftShip.transform.position : _rightShip.transform.position;
                 Instantiate(boltPrefab, position, Quaternion.identity);
