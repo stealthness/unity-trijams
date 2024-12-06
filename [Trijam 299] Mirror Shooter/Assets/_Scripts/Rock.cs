@@ -18,6 +18,9 @@ namespace _Scripts
             
             if (transform.position.y < -6.5f)
             {
+                
+                GetComponent<BoxCollider2D>().enabled = true;
+                GetComponent<SpriteRenderer>().enabled = true;
                 var rx = Random.Range(-maxDistanceSpawnFromCenter,maxDistanceSpawnFromCenter);
                 var ry = Random.Range(16f,28f);
                 transform.position = new Vector3(rx, ry, 0);
@@ -33,6 +36,13 @@ namespace _Scripts
             {
                 FindObjectsByType<PlayerHealth>(0)[0].TakeDamage(10);
             }
+        }
+
+        public void TakeDamage(int amount)
+        {
+            Debug.Log("Rock took damage: " + amount);
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }
