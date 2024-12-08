@@ -24,3 +24,9 @@ namespace _Scripts.Player
         }
     }
 }
+
+public enum PlayerColor
+{
+    Red,
+    Blue
+}

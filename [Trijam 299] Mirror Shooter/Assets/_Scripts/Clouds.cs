@@ -6,12 +6,12 @@ namespace _Scripts
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Rock :MonoBehaviour
+    public class Clouds :MonoBehaviour
     {
         
-        [SerializeField] private float speed = 5f;
+        [SerializeField] private float speed = 3f;
         [SerializeField] private float maxDistanceSpawnFromCenter = 8f;
-
+        [SerializeField] private CloudColor cloudColor = CloudColor.Red;
         private void Update()
         {
             
@@ -33,15 +33,23 @@ namespace _Scripts
         {
             if (other.CompareTag("Player"))
             {
-                FindObjectsByType<PlayerHealth>(0)[0].TakeDamage(10);
+                Debug.Log("Player collided with cloud");
             }
         }
 
         public void TakeDamage(int amount)
         {
             Debug.Log("Rock took damage: " + amount);
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<SpriteRenderer>().enabled = false;
+            // GetComponent<BoxCollider2D>().enabled = false;
+            // GetComponent<SpriteRenderer>().enabled = false;
         }
     }
+
+    internal enum CloudColor
+    {
+        Red,
+        Blue,
+        Green
+    }   
 }
+
