@@ -1,16 +1,48 @@
+
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
-public class Lift : MonoBehaviour
+namespace _Scripts
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [RequireComponent(typeof(BoxCollider2D))]
+    public class Lift : MonoBehaviour
     {
-        
-    }
+        public Sprite openSprite;
+        public Sprite closedSprite;
+        public bool isOpen = false;
+        public string name;
 
-    // Update is called once per frame
-    void Update()
-    {
+        [SerializeField] public SpriteRenderer sign;
+        [SerializeField] public Transform destination;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E) && isOpen)
+            {
+                GameObject player = GameObject.FindWithTag("Player");
+                player.transform.position =player.transform.position - transform.position + destination.position;
+            }
+        }
         
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                GetComponent<SpriteRenderer>().sprite = openSprite;
+                sign.enabled = true;
+                isOpen = true;
+            }
+        }
+        
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                GetComponent<SpriteRenderer>().sprite = closedSprite;
+                isOpen = false;
+                sign.enabled = false;
+            }
+        }
     }
 }
