@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8580480816595564922}
   - component: {fileID: 3976525778204975982}
   - component: {fileID: 3272006216451575511}
+  - component: {fileID: 830053407561520074}
   m_Layer: 0
   m_Name: PaperPlane
-  m_TagString: Untagged
+  m_TagString: PaperPlane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,3 +174,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &830053407561520074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113531660959186681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b560c923a0d32d4fb36c533bfcba453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paperPlaneFlightTime: 0.6
+  paperPlaneGravityRate: 0.5
