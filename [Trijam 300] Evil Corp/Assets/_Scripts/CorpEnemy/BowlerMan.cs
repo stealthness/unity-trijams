@@ -5,50 +5,49 @@ namespace _Scripts.CorpEnemy
 {
     public class BowlerMan : MonoBehaviour, IDamageable
     {
-        public int health = 100;
         public Transform[] patrolPoints;
-        private int currentPatrolIndex = 0;
-        private float _dir = 1f;
         
-        private Rigidbody2D _rigidbody2D;
+        [ SerializeField] private int health = 100;
+        private int _currentPatrolIndex = 0;
+        private float _dirX = 1f;
+        
+        private const float Tol = 0.1f;
+        private Rigidbody2D _rb;
 
         private void Awake()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
         private void Update()
         {
-            
             if (IsCloseToPatrolPoint())
             {
-                MovetToNextPatrolPoint();
+                MoveToNextPatrolPoint();
             }
             else
             {
-                
-            _rigidbody2D.linearVelocityX = _dir;
+                _rb.linearVelocityX = _dirX;
             }
         }
 
         private bool IsCloseToPatrolPoint()
         {
-            return Mathf.Abs(patrolPoints[currentPatrolIndex].transform.position.x - transform.position.x) < 0.1f;
+            return Mathf.Abs(patrolPoints[_currentPatrolIndex].transform.position.x - transform.position.x) < Tol;
         }
 
         private void Start()
         {
-            _dir = (transform.position.x - patrolPoints[currentPatrolIndex].position.x < 0) ? 1: -1;
+            _dirX = (transform.position.x - patrolPoints[_currentPatrolIndex].position.x < 0) ? 1: -1;
         }
         
 
-        private void MovetToNextPatrolPoint()
+        private void MoveToNextPatrolPoint()
         {
 
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-            Debug.Log("currentPatrolIndex: " + currentPatrolIndex);
-            _dir = patrolPoints[currentPatrolIndex].position.x - transform.position.x < 0  ? -1 : 1;
+            _currentPatrolIndex = (_currentPatrolIndex + 1) % patrolPoints.Length;
+            _dirX = patrolPoints[_currentPatrolIndex].position.x - transform.position.x < 0  ? -1 : 1;
         }
 
 
