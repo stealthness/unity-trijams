@@ -26,7 +26,7 @@ namespace _Scripts
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Enemy"))
+            if (other.gameObject.CompareTag("BowlerMan"))
             {
                 Destroy(gameObject);
             }

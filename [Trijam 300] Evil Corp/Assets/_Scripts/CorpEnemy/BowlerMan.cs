@@ -12,16 +12,32 @@ namespace _Scripts.CorpEnemy
 
         private void Update()
         {
-            MovetToNextPatrolPoint();
+            if (IsCloseToPatrolPoint())
+            {
+                MovetToNextPatrolPoint();
+            }
+            //MovetToNextPatrolPoint();
         }
+
+        private bool IsCloseToPatrolPoint()
+        {
+            //Debug.Log("Distance: " + Mathf.Abs(patrolPoints[currentPatrolIndex].transform.position.x - transform.position.x));
+            return Mathf.Abs(patrolPoints[currentPatrolIndex].transform.position.x - transform.position.x) < 0.1f;
+        }
+
+        private void Start()
+        {
+            int dir = (transform.position.x - patrolPoints[currentPatrolIndex].position.x < 0) ? 1: -1;
+            GetComponent<Rigidbody2D>().linearVelocityX = dir;
+        }
+        
 
         private void MovetToNextPatrolPoint()
         {
-            if (Vector2.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 0.1f)
-            {
-                currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-            }
-            GetComponent<Rigidbody2D>().linearVelocityX =  patrolPoints[currentPatrolIndex].position.x - transform.position.x < 0  ? 1 : -1;
+
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            Debug.Log("currentPatrolIndex: " + currentPatrolIndex);
+            GetComponent<Rigidbody2D>().linearVelocityX =  patrolPoints[currentPatrolIndex].position.x - transform.position.x < 0  ? -1 : 1;
         }
 
 
