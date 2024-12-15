@@ -1,8 +1,7 @@
-
+using _Scripts.Player;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
-namespace _Scripts
+namespace _Scripts.Transport
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class Lift : MonoBehaviour
@@ -14,13 +13,19 @@ namespace _Scripts
 
         [SerializeField] public SpriteRenderer sign;
         [SerializeField] public Transform destination;
+        
+        private PlayerMovement2D player;
+        
+        private void Start()
+        {
+            player = GameObject.FindWithTag("Player").GetComponent<PlayerMovement2D>();
+        }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.E) && isOpen)
             {
-                GameObject player = GameObject.FindWithTag("Player");
-                player.transform.position =player.transform.position - transform.position + destination.position;
+                player.MoveTo(player.transform.position - transform.position + destination.position);
             }
         }
         

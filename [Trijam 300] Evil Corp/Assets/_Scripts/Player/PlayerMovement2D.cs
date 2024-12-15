@@ -95,6 +95,17 @@ namespace _Scripts.Player
         }
         
         /// <summary>
+        /// MoveTo moves the player to a new position and sets their movement speed to zero.
+        /// </summary>
+        /// <param name="newPosition"></param>
+        public void MoveTo(Vector3 newPosition)
+        {
+            _dir = Vector2.zero;
+            _rb.linearVelocity = Vector2.zero;
+            transform.position = newPosition;
+        }
+        
+        /// <summary>
         /// CheckGrounded is called in the Update method. It checks if the player is grounded.
         /// </summary>
         private void CheckGrounded()
