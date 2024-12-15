@@ -1,6 +1,5 @@
-using System;
+
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace _Scripts.CorpEnemy
 {
@@ -9,26 +8,38 @@ namespace _Scripts.CorpEnemy
         public int health = 100;
         public Transform[] patrolPoints;
         private int currentPatrolIndex = 0;
+        private float _dir = 1f;
+        
+        private Rigidbody2D _rigidbody2D;
+
+        private void Awake()
+        {
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
 
         private void Update()
         {
+            
             if (IsCloseToPatrolPoint())
             {
                 MovetToNextPatrolPoint();
             }
-            //MovetToNextPatrolPoint();
+            else
+            {
+                
+            _rigidbody2D.linearVelocityX = _dir;
+            }
         }
 
         private bool IsCloseToPatrolPoint()
         {
-            //Debug.Log("Distance: " + Mathf.Abs(patrolPoints[currentPatrolIndex].transform.position.x - transform.position.x));
             return Mathf.Abs(patrolPoints[currentPatrolIndex].transform.position.x - transform.position.x) < 0.1f;
         }
 
         private void Start()
         {
-            int dir = (transform.position.x - patrolPoints[currentPatrolIndex].position.x < 0) ? 1: -1;
-            GetComponent<Rigidbody2D>().linearVelocityX = dir;
+            _dir = (transform.position.x - patrolPoints[currentPatrolIndex].position.x < 0) ? 1: -1;
         }
         
 
@@ -37,7 +48,7 @@ namespace _Scripts.CorpEnemy
 
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
             Debug.Log("currentPatrolIndex: " + currentPatrolIndex);
-            GetComponent<Rigidbody2D>().linearVelocityX =  patrolPoints[currentPatrolIndex].position.x - transform.position.x < 0  ? -1 : 1;
+            _dir = patrolPoints[currentPatrolIndex].position.x - transform.position.x < 0  ? -1 : 1;
         }
 
 

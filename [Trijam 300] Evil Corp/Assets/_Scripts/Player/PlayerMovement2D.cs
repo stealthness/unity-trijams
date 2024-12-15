@@ -1,6 +1,4 @@
-using _Scripts.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Scripts.Player
 {
@@ -14,7 +12,7 @@ namespace _Scripts.Player
         private Rigidbody2D _rb;
         private SpriteRenderer _sr;
         private BoxCollider2D _box;
-        private Vector2 _dir;
+        public Vector2 _dir { get; set; }
         [SerializeField] private bool isGrounded;
         [SerializeField] private int currentJumpCount;
 

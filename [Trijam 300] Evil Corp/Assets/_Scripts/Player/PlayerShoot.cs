@@ -23,8 +23,9 @@ namespace _Scripts.Player
         {
             _onShootCooldown = true;
             var plane = Instantiate(paperPlanePrefab, transform.position + offset, Quaternion.identity);
-            
-            plane.GetComponent<Rigidbody2D>().linearVelocityX = 10f;
+            bool flipX = GetComponent<SpriteRenderer>().flipX;
+            plane.GetComponent<SpriteRenderer>().flipX = flipX;
+            plane.GetComponent<Rigidbody2D>().linearVelocityX = (flipX ? -1 : 1) * 10f;
             Invoke(nameof(CooldownDelay), _cooldownDelay);
         }
         

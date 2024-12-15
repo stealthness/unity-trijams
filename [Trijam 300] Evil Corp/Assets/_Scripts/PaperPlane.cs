@@ -1,4 +1,6 @@
 
+using _Scripts.CorpEnemy;
+using _Scripts.Player;
 using UnityEngine;
 
 namespace _Scripts
@@ -24,16 +26,21 @@ namespace _Scripts
             
         }
         
-        private void OnTriggerEnter2D(Collider2D other)
+        /*private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("BowlerMan"))
             {
+                other.GetComponent<BowlerMan>().TakeDamage(40);
                 Destroy(gameObject);
             }
-        }
+        }*/
         
         private void OnCollisionEnter2D(Collision2D other)
         {
+            if (other.gameObject.CompareTag("BowlerMan"))
+            {
+                other.gameObject.GetComponent<BowlerMan>().TakeDamage(40);
+            }
             Destroy(gameObject);
         }
         
