@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2077582701189299847}
   - component: {fileID: 287032315112347451}
   - component: {fileID: 1821215952797962667}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BowlerMan
   m_TagString: BowlerMan
   m_Icon: {fileID: 0}
@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392615851601478b906bca7b46d97b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
+  health: 100
 --- !u!212 &2077582701189299847
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ SpriteRenderer:
   m_SortingOrder: 16
   m_Sprite: {fileID: 1212523102288876561, guid: 95d784599bf696544acfcad52c7e7aea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -149,7 +149,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

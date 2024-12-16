@@ -6,6 +6,7 @@ namespace _Scripts.Player
     public class PlayerShoot : MonoBehaviour
     {
         public GameObject paperPlanePrefab;
+        
         private bool _onShootCooldown = false;
         private float _cooldownDelay = 0.5f;
         [SerializeField] private Vector3 offset = 0.5f * Vector3.up;
