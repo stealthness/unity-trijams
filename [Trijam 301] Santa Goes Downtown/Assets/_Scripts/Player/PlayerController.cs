@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace _Scripts.Player
 {
@@ -41,6 +40,26 @@ namespace _Scripts.Player
             {
                 _playerMovement2D.Move(Vector2.zero);
             }
+        }
+        
+        public void Attack(InputAction.CallbackContext context)
+        {
+            if (_playerState == PlayerState.Dead)
+            {
+                return;
+            }
+            
+            if (context.phase == InputActionPhase.Performed)
+            {
+                _animator.Play("Attack");
+                var clipLength = _animator.GetCurrentAnimatorStateInfo(0).length;
+                Invoke(nameof(ResetAttack), clipLength);
+            }
+        }
+        
+        private void ResetAttack()
+        {
+            _animator.Play("Idle");
         }
         
         public void Jump(InputAction.CallbackContext context)
