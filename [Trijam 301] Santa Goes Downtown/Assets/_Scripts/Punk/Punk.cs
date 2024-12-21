@@ -1,20 +1,17 @@
 using _Scripts.Core;
+using _Scripts.Player;
 using UnityEngine;
 
 namespace _Scripts.Punk
 {
     public class Punk : Movement2D
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        private void OnCollisionEnter2D(Collision2D other)
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            if (other.gameObject.CompareTag("Player"))
+            {
+                other.gameObject.GetComponent<PlayerController>().DamagePlayer();
+            }
         }
     }
 }

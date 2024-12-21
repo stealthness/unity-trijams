@@ -72,8 +72,12 @@ namespace _Scripts.Player
             _animator.enabled = false;
             GetComponent<SpriteRenderer>().sprite = burntSprite;
         }
-        
-        
+
+
+        public void DamagePlayer()
+        {
+            Debug.Log("PC: Damage Player");
+        }
     }
 }
 
