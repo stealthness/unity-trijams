@@ -125,7 +125,7 @@ namespace _Scripts.Player
             float radius = 2f;
             foreach (var hit in Physics2D.OverlapCircleAll(transform.position, radius))
             {
-                hit.GetComponent<SpiderMovement2DTopdown>()?.KnockBack(transform.position);
+                hit.GetComponent<SpiderMovement>()?.KnockBack(transform.position);
             }
         }
         

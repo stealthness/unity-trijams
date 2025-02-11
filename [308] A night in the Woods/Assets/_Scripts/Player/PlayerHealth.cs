@@ -1,4 +1,5 @@
 
+using _Scripts.Spiders;
 using TMPro;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ namespace _Scripts.Player
         private void Die()
         {
             _playerController.KillPlayer();
+            SpiderManager.Instance.StopAllSpiders();
             GameManager.Instance.GameOver();
         }
     }

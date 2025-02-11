@@ -71,7 +71,7 @@ namespace _Scripts.Spiders
             }
             var randomSpawnPoint = Random.Range(0, spawnPoints.Length);
             var spider = Instantiate(spiderPrefab, spawnPoints[randomSpawnPoint].position, Quaternion.identity);
-            spider.GetComponent<SpiderMovement2DTopdown>().SetTarget(GameObject.FindWithTag("Player"));
+            spider.GetComponent<SpiderMovement>().SetTarget(GameObject.FindWithTag("Player"));
             
         }
 
@@ -82,7 +82,7 @@ namespace _Scripts.Spiders
             var spiders = GameObject.FindGameObjectsWithTag("Spider");
             foreach (var spider in spiders)
             {
-                spider.GetComponent<SpiderMovement2DTopdown>().Stop();
+                spider.GetComponent<SpiderMovement>().Stop();
             }
         }
 

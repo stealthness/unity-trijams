@@ -1,13 +1,16 @@
-
 using _Scripts.Core;
 using _Scripts.Player;
 using UnityEngine;
 
 namespace _Scripts.Spiders
 {
-    public class SpiderMovement2DTopdown : Movement2DTopdown
+    /// <summary>
+    /// This class is responsible for the movement of the Spider in a top-down 2D game.
+    /// </summary>
+    public class SpiderMovement : Movement2DTopdown
     {
         public GameObject target;
+        
         private Animator _animator;
         private const float KnockBackDistance = 3f;
         private int _knockBackCount = 0;
@@ -22,18 +25,14 @@ namespace _Scripts.Spiders
 
         protected override void Move()
         {
-            if (target == null)
+            var direction= Direction;
+            if (target != null)
             {
-                var direction = Direction;
-                transform.position += direction.normalized * Time.deltaTime;
+                direction = target.transform.position - transform.position;
             }
-            else
-            {
-                var direction = target.transform.position - transform.position;
-                Direction = direction;
-                transform.position += direction.normalized * Time.deltaTime;
-            }
+ 
 
+            transform.position += direction.normalized * Time.deltaTime;
         }
         
         public void SetTarget(GameObject newTarget)
@@ -53,7 +52,6 @@ namespace _Scripts.Spiders
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                SpiderManager.Instance.StopAllSpiders();
                 FindAnyObjectByType<PlayerHealth>().TakeDamage(10);
                 _animator.Play("Dead");
                 KillSpider();
