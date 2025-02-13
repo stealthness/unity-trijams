@@ -7,9 +7,11 @@ namespace _Scripts.Managers
     /// <summary>
     /// Manages the music in the game.
     /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     public class MusicManager : MonoBehaviour
     {
-        
+        private const KeyCode ToggleMusicKey = KeyCode.M;
+        private const string MusicOnStartUpKey = "MusicOnStartUp";
         private bool _musicOnStartUp = true;
         private AudioSource _audioSource;
 
@@ -36,7 +38,7 @@ namespace _Scripts.Managers
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(ToggleMusicKey))
             {
                 ToggleMusic();
             }
@@ -67,15 +69,15 @@ namespace _Scripts.Managers
         
         private void LoadMusicPref()
         {
-            if (PlayerPrefs.HasKey("MusicOnStartUp"))
+            if (PlayerPrefs.HasKey(MusicOnStartUpKey))
             {
-                _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
+                _musicOnStartUp = PlayerPrefs.GetInt(MusicOnStartUpKey) == 1;
             }
         }
 
         private void SaveMusicPref()
         {
-            PlayerPrefs.SetInt("MusicOnStartUp", _musicOnStartUp ? 1 : 0);
+            PlayerPrefs.SetInt(MusicOnStartUpKey, _musicOnStartUp ? 1 : 0);
             PlayerPrefs.Save();
         }
     }
