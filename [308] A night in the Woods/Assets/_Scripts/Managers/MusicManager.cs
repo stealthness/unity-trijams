@@ -14,15 +14,25 @@ namespace _Scripts
             if (PlayerPrefs.HasKey("MusicOnStartUp"))
             {
                 _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
+                
+            }
+            else
+            {
+                SaveMusicPref();
             }
             _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start()
         {
+            if (PlayerPrefs.HasKey("MusicOnStartUp"))
+            {
+                _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
+            }
             if (_musicOnStartUp)
             {
                 _audioSource.Play();
+                
             }
         }
 
@@ -44,16 +54,20 @@ namespace _Scripts
             {
                 _audioSource.Play();
             }
+            SaveMusicPref();
 
         }
         
 
         private void OnApplicationQuit()
         {
+            SaveMusicPref();
+        }
+
+        private void SaveMusicPref()
+        {
             PlayerPrefs.SetInt("MusicOnStartUp", _musicOnStartUp ? 1 : 0);
             PlayerPrefs.Save();
         }
-        
-
     }
 }
