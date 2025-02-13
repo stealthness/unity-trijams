@@ -1,8 +1,12 @@
-using System;
+
 using UnityEngine;
 
-namespace _Scripts
+namespace _Scripts.Managers
 {
+    
+    /// <summary>
+    /// Manages the music in the game.
+    /// </summary>
     public class MusicManager : MonoBehaviour
     {
         
@@ -11,28 +15,22 @@ namespace _Scripts
 
         private void Awake()
         {
-            if (PlayerPrefs.HasKey("MusicOnStartUp"))
-            {
-                _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
-                
-            }
-            else
-            {
-                SaveMusicPref();
-            }
+
             _audioSource = GetComponent<AudioSource>();
+            LoadMusicPref();
         }
 
         private void Start()
         {
-            if (PlayerPrefs.HasKey("MusicOnStartUp"))
-            {
-                _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
-            }
+
             if (_musicOnStartUp)
             {
                 _audioSource.Play();
                 
+            }
+            else
+            {
+                _audioSource.Stop();
             }
         }
 
@@ -48,10 +46,12 @@ namespace _Scripts
         {
             if (_audioSource.isPlaying)
             {
-                _audioSource.Stop();
+                _musicOnStartUp = false;
+                _audioSource.Pause();
             }
             else
             {
+                _musicOnStartUp = true;
                 _audioSource.Play();
             }
             SaveMusicPref();
@@ -62,6 +62,15 @@ namespace _Scripts
         private void OnApplicationQuit()
         {
             SaveMusicPref();
+        }
+        
+        
+        private void LoadMusicPref()
+        {
+            if (PlayerPrefs.HasKey("MusicOnStartUp"))
+            {
+                _musicOnStartUp = PlayerPrefs.GetInt("MusicOnStartUp") == 1;
+            }
         }
 
         private void SaveMusicPref()
