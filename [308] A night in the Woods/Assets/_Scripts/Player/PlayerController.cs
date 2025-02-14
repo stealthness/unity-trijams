@@ -146,7 +146,7 @@ namespace _Scripts.Player
             {
                 Debug.Log("Player picked up stick by stick");
                 _audioSource.PlayOneShot(pickUpSound);
-                campFire.AddStick();
+                campFire.AddStick(10);
                 Destroy(other.gameObject);
             }
         }
