@@ -28,6 +28,10 @@ namespace _Scripts
             Debug.Log("Start GameManager");
         }
 
- 
+
+        public void StartGame()
+        {
+            
+        }
     }
 }
