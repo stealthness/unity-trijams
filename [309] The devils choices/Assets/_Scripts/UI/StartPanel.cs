@@ -14,5 +14,10 @@ namespace _Scripts.UI
             startPanel.SetActive(false);
             GameManager.Instance.StartGame();
         }
+
+        public void ShowPanel()
+        {
+            startPanel.SetActive(true);
+        }
     }
 }

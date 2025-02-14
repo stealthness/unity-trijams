@@ -1,4 +1,5 @@
 using System;
+using _Scripts.UI;
 using UnityEngine;
 
 namespace _Scripts
@@ -26,12 +27,18 @@ namespace _Scripts
         void Start()
         {
             Debug.Log("Start GameManager");
+            FindFirstObjectByType<StartPanel>().ShowPanel();
         }
 
 
         public void StartGame()
         {
-            
+            FindFirstObjectByType<CardPanel>().ShowCardPanel();
+        }
+
+        public void RestartGame()
+        {
+            FindFirstObjectByType<StartPanel>().ShowPanel();
         }
     }
 }
