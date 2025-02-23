@@ -10,7 +10,7 @@ namespace _Scripts.Player
     public class PlayerSideways2DMovement : MonoBehaviour
     {
         private const float PLAYER_SPEED = 3f;
-        private const float BOLT_SPEED = 8f;
+        private const float BOLT_SPEED = 16f;
         
         Collider2D _collider;
         Rigidbody2D _rigidbody;
@@ -18,7 +18,6 @@ namespace _Scripts.Player
         float _dir = 0;
 
         public GameObject boltPrefab;
-        [SerializeField] private Vector3 offset = new Vector3(1, 0, 0);
 
 
         private void Awake()
@@ -56,7 +55,17 @@ namespace _Scripts.Player
         public void Fire()
         {
             var boltDir = _spriteRenderer.flipX ? -1 : 1;
-            var bolt = Instantiate(boltPrefab, transform.position + (boltDir * offset), Quaternion.identity);
+            var offset = _spriteRenderer.flipX ? new Vector3(-1, 0.5f, 0): new Vector3(1, 0.5f, 0);
+            var bolt = Instantiate(boltPrefab, transform.position + offset, Quaternion.identity);                                    
+            if (_spriteRenderer.flipX)
+            {
+                bolt.GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else
+            {
+                bolt.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            
             bolt.GetComponent<Rigidbody2D>().linearVelocityX = boltDir * BOLT_SPEED;
         }
     }

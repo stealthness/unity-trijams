@@ -40,6 +40,13 @@ namespace _Scripts.Player
             }
         }
 
-        
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Vampire"))
+            {
+                Debug.Log("Player hit vampire");
+                Time.timeScale = 0;
+            }
+        }
     }
 }
