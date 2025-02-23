@@ -10,6 +10,7 @@ namespace _Scripts.Player
         private PlayerSideways2DMovement _player;
 
         private const float TOL = 0.0001f;
+        private PlayerState _state = PlayerState.Alive;
 
         private void Awake()
         {
@@ -18,6 +19,12 @@ namespace _Scripts.Player
 
         public void OnMove(InputAction.CallbackContext context)
         {
+
+            if (_state == PlayerState.Dead)
+            {
+                return;
+            }
+            
             
             if (context.performed)
             {
@@ -33,6 +40,12 @@ namespace _Scripts.Player
         
         public void OnFire(InputAction.CallbackContext context)
         {
+            if (_state == PlayerState.Dead)
+            {
+                return;
+            }
+            
+            
             if (context.performed)
             {
                 Debug.Log("Fire");
@@ -44,9 +57,17 @@ namespace _Scripts.Player
         {
             if (other.gameObject.CompareTag("Vampire"))
             {
-                Debug.Log("Player hit vampire");
+                _state = PlayerState.Dead;
+                _player.enabled = false;
                 Time.timeScale = 0;
             }
+        }
+        
+        
+        private enum PlayerState
+        {
+            Alive,
+            Dead
         }
     }
 }
