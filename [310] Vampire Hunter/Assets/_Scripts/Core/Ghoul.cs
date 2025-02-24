@@ -1,5 +1,7 @@
 using System;
+using _Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Core
 {
@@ -8,18 +10,22 @@ namespace _Scripts.Core
     [RequireComponent(typeof(BoxCollider2D))]
     public class Ghoul : MonoBehaviour
     {
+        public Transform target;
+        
         private Rigidbody2D _rigidbody;
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
         private BoxCollider2D _collider;
-        private GameObject _stars;
-        private int _dir;
+        private AudioSource _audioSource;
         
-        public Transform target;
-        [SerializeField] private float _ghoulSpeed = 1f;
-        [SerializeField] private int _ghoulHealth = 3;
-        private bool _stunned = false;
-        private bool _isDead = false;
+        private GameObject _stars;
+        
+        
+        [SerializeField] private int dir;
+        [SerializeField] private float ghoulsSpeed = 1f;
+        [SerializeField] private int ghoulsHealth = 3;
+        [SerializeField] private bool _stunned = false;
+        [SerializeField] private bool _isDead = false;
 
 
         private void Awake()
@@ -28,6 +34,7 @@ namespace _Scripts.Core
             _animator = GetComponent<Animator>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
             _stars = transform.GetChild(0).gameObject;
             
         }
@@ -38,8 +45,8 @@ namespace _Scripts.Core
             {
                 return;
             }
-            _animator.Play("Moving");
             
+            _animator.Play("Moving");
             _isDead = false;
             CheckDirection();
         }
@@ -52,19 +59,19 @@ namespace _Scripts.Core
                 return;
             }
             
-            _rigidbody.linearVelocityX = _dir * _ghoulSpeed;
+            _rigidbody.linearVelocityX = dir * ghoulsSpeed;
         }
 
         private void CheckDirection()
         {
             if (target.position.x > transform.position.x)
             {
-                _dir = 1;
+                dir = 1;
                 _spriteRenderer.flipX = true;
             }
             else
             {
-                _dir = -1;
+                dir = -1;
                 _spriteRenderer.flipX = false;
             }
         }
@@ -74,35 +81,40 @@ namespace _Scripts.Core
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log("Ghoul hit player");
+                GameManger.Instance.GameOver();
+                
             }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (_isDead)
+            {
+                return;
+            }            
+            
             if (other.gameObject.CompareTag("Bolt"))
             {
-                Destroy(other.gameObject);
-                if (_isDead)
-                {
-                    return;
-                }
-                
                 Debug.Log("Ghoul hit by bolt");
-                _stunned = true;
-                _animator.Play("Stun");
-                _stars.SetActive(true);
-                
-                GhoulsHealthHit();
-                
-                Invoke(nameof(StunCooldown), 2f);   
-                
+                Destroy(other.gameObject);
+                StunGhoul();
+                Invoke(nameof(StunCooldown), 2f);
             }
+        }
+
+        private void StunGhoul()
+        {
+            _stunned = true;
+            _animator.Play("Stun");
+            _stars.SetActive(true);
+            _audioSource.Play();
+            GhoulsHealthHit();
         }
 
         private void GhoulsHealthHit()
         {
-            _ghoulHealth--;
-            if (_ghoulHealth <= 0)
+            ghoulsHealth--;
+            if (ghoulsHealth <= 0)
             {
                 _isDead = true;
                 Die();

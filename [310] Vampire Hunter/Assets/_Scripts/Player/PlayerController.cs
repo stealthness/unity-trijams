@@ -1,4 +1,6 @@
 using System;
+using _Scripts.Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,10 +9,15 @@ namespace _Scripts.Player
     [RequireComponent(typeof(PlayerSideways2DMovement))]
     public class PlayerController : MonoBehaviour
     {
+
+        public GameObject Panel;
+        
         private PlayerSideways2DMovement _player;
 
         private const float TOL = 0.0001f;
         private PlayerState _state = PlayerState.Alive;
+        private bool _onFireCooldown = false;
+        private float _fireCooldown = 0.2f;
 
         private void Awake()
         {
@@ -40,7 +47,7 @@ namespace _Scripts.Player
         
         public void OnFire(InputAction.CallbackContext context)
         {
-            if (_state == PlayerState.Dead)
+            if (_state == PlayerState.Dead || _onFireCooldown)
             {
                 return;
             }
@@ -48,15 +55,26 @@ namespace _Scripts.Player
             
             if (context.performed)
             {
+                GetComponent<AudioSource>().Play();
                 Debug.Log("Fire");
                 _player.Fire();
+                _onFireCooldown = true;
+                Invoke(nameof(FireCooldown), _fireCooldown);
             }
         }
 
+        private void FireCooldown()
+        {
+            _onFireCooldown = false;
+        }
+        
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Vampire"))
+            if (other.gameObject.CompareTag("Vampire") || other.gameObject.CompareTag("Ghoul"))
             {
+                Panel.gameObject.SetActive(true);
+                GameManger.Instance.GameOver();
                 _state = PlayerState.Dead;
                 _player.enabled = false;
                 Time.timeScale = 0;
