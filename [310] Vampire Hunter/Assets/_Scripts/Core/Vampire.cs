@@ -5,17 +5,12 @@ using UnityEngine;
 namespace _Scripts.Core
 {
     
-    public class Vampire : MonoBehaviour
+    public class Vampire : NPC
     {
         
         
         
         private VampireState _state;
-        private Animator _animator;
-        private BoxCollider2D _collider;
-        private Rigidbody2D _rigidbody;
-        private SpriteRenderer _spriteRenderer;
-        private Transform _target;
         private int _dir;
         private float _speed = 4f;
         
@@ -32,7 +27,7 @@ namespace _Scripts.Core
 
         private void Start()
         {
-            this.gameObject.tag = "Bat";
+            gameObject.tag = "Bat";
             _target = GameObject.FindWithTag("Player").transform;
             _state = VampireState.Bat;
             _rigidbody.gravityScale = _batGravityForce;

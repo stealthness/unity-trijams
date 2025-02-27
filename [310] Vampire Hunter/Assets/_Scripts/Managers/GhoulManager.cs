@@ -47,7 +47,6 @@ namespace _Scripts.Managers
         private void DelayedGhoulSpawn()
         {
                 var ghoul = Instantiate(ghoulPrefab, _door.transform.position, Quaternion.identity);
-                ghoul.GetComponent<Ghoul>().target = FindFirstObjectByType<PlayerController>().transform;
                 Invoke(nameof(CloseDoor), 1f); 
         }
         

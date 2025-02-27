@@ -8,16 +8,8 @@ namespace _Scripts.Core
     
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Ghoul : MonoBehaviour
+    public class Ghoul :  NPC
     {
-        public Transform target;
-        
-        private Rigidbody2D _rigidbody;
-        private Animator _animator;
-        private SpriteRenderer _spriteRenderer;
-        private BoxCollider2D _collider;
-        private AudioSource _audioSource;
-        
         private GameObject _stars;
         
         
@@ -41,11 +33,7 @@ namespace _Scripts.Core
         
         private void Start()
         {
-            if (isStunned)
-            {
-                return;
-            }
-            
+            _target = GameObject.FindWithTag("Player").transform;
             _animator.Play("Moving");
             isDead = false;
             CheckDirection();
@@ -64,7 +52,7 @@ namespace _Scripts.Core
 
         private void CheckDirection()
         {
-            if (target.position.x > transform.position.x)
+            if (_target.position.x > transform.position.x)
             {
                 dir = 1;
                 _spriteRenderer.flipX = true;
