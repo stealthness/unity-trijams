@@ -8,10 +8,9 @@ namespace _Scripts.Core
     
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Ghoul :  NPC
+    public sealed class Ghoul :  NPC
     {
         private GameObject _stars;
-        
         
         [SerializeField] private int dir;
         [SerializeField] private float ghoulsSpeed = 1f;
@@ -22,11 +21,7 @@ namespace _Scripts.Core
 
         private void Awake()
         {
-            _collider = GetComponent<BoxCollider2D>();
-            _animator = GetComponent<Animator>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _audioSource = GetComponent<AudioSource>();
+            base.Awake();
             _stars = transform.GetChild(0).gameObject;
             
         }
@@ -49,20 +44,7 @@ namespace _Scripts.Core
             
             _rigidbody.linearVelocityX = dir * ghoulsSpeed;
         }
-
-        private void CheckDirection()
-        {
-            if (_target.position.x > transform.position.x)
-            {
-                dir = 1;
-                _spriteRenderer.flipX = true;
-            }
-            else
-            {
-                dir = -1;
-                _spriteRenderer.flipX = false;
-            }
-        }
+        
 
         private void OnCollisionEnter2D(Collision2D other)
         {

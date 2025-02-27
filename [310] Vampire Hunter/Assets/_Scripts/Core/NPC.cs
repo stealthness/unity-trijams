@@ -11,5 +11,30 @@ namespace _Scripts.Core
         protected Transform _target;
         protected AudioSource _audioSource;
         protected int _dir;
+        
+        
+        
+        protected void Awake()
+        {
+            _collider = GetComponent<BoxCollider2D>();
+            _rigidbody = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        
+        
+        protected void CheckDirection()
+        {
+            if (_target.position.x > transform.position.x)
+            {
+                _dir = 1;
+                _spriteRenderer.flipX = true;
+            }
+            else
+            {
+                _dir = -1;
+                _spriteRenderer.flipX = false;
+            }
+        }
     }
 }

@@ -4,72 +4,37 @@ using UnityEngine;
 
 namespace _Scripts.Core
 {
-    
+    /// <summary>
+    /// This class is used to control the Vampire NPC.
+    /// </summary>
     public class Vampire : NPC
     {
         
-        
-        
         private VampireState _state;
-        private int _dir;
-        private float _speed = 4f;
+        [SerializeField] private float speed = 4f;
+        [SerializeField] private float batGravityForce = 0.3f;
         
-        [SerializeField] private float _batGravityForce = 0.3f;
-
-        private void Awake()
-        {
-            _collider = GetComponent<BoxCollider2D>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
-
+        
         private void Start()
         {
             gameObject.tag = "Bat";
             _target = GameObject.FindWithTag("Player").transform;
             _state = VampireState.Bat;
-            _rigidbody.gravityScale = _batGravityForce;
+            _rigidbody.gravityScale = batGravityForce;
             _animator.Play("batflying");
             
         }
         
         private void Update()
         {
-            switch (_state)
+            if (_state == VampireState.Moving)
             {
-                case VampireState.Bat:
-                    break;
-                case VampireState.Transforming:
-                    break;
-                case VampireState.Grounded:
-                    break;
-                case VampireState.Moving:
-                    _rigidbody.linearVelocityX = _dir * _speed;
-                    break;
-                case VampireState.Burning:
-                    break;
-                case VampireState.Dead:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                _rigidbody.linearVelocityX = _dir * speed;
             }
+            
+            
         }
- 
-        private void CheckDirection()
-        {
-            if (_target.position.x > transform.position.x)
-            {
-                _dir = 1;
-                _spriteRenderer.flipX = true;
-            }
-            else
-            {
-                _dir = -1;
-                _spriteRenderer.flipX = false;
-            }
-        }
+        
 
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -133,7 +98,7 @@ namespace _Scripts.Core
         {
             CheckDirection();
             _state = VampireState.Moving;
-            _rigidbody.linearVelocityX = _dir * _speed;
+            _rigidbody.linearVelocityX = _dir * speed;
         }
 
         private enum VampireState
