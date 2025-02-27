@@ -25,14 +25,16 @@ namespace _Scripts.Core
             
         }
         
-        private void Update()
+        private void LateUpdate()
         {
             if (_state == VampireState.Moving)
             {
                 _rigidbody.linearVelocityX = _dir * speed;
             }
-            
-            
+            if (_state is VampireState.Burning or VampireState.Transforming)
+            {
+                _rigidbody.linearVelocityX = 0;
+            }
         }
         
 
@@ -62,15 +64,14 @@ namespace _Scripts.Core
 
         private void Burn()
         {
-            Debug.Log("Vampire burned");
             GameManger.Instance.UpdateScore(1);
-            GetComponent<AudioSource>().Play();
             _state = VampireState.Burning;
-            _animator.SetTrigger("Burn");
+            _audioSource.Play();
             _animator.Play("burn");
             _collider.isTrigger = true;
             _collider.name = "DeadVampire";
             _rigidbody.gravityScale = 0;
+            _rigidbody.linearVelocity = Vector2.zero;
             Invoke(nameof(SetDead), 1f);
             
         }
@@ -80,7 +81,7 @@ namespace _Scripts.Core
             _animator.Play("idle");
             _state = VampireState.Grounded;
             gameObject.tag = "Vampire";
-            Invoke(nameof(AttackPlayer), 2f);
+            Invoke(nameof(AttackPlayer), 0.5f);
         }
         
         private void SetDead()
@@ -108,7 +109,6 @@ namespace _Scripts.Core
              Grounded,
              Moving,
              Burning,
-             Dead
          }
                  
     }

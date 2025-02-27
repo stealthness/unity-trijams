@@ -20,6 +20,7 @@ namespace _Scripts.Core
             _rigidbody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
         }
         
         
