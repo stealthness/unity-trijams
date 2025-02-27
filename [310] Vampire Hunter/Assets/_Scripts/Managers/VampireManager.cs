@@ -8,8 +8,9 @@ namespace _Scripts.Managers
         
         public Transform[] _startLocations;
         public GameObject vampPrefab;
-        public float _vampSpawnRate = 0.2f;
-        
+        public float _vampSpawnRate = 0.1f;
+        private float _vampSpawnRateIncrease = 0.0005f;
+
         private void Awake()
         {
             if (_startLocations.Length == 0)
@@ -20,7 +21,7 @@ namespace _Scripts.Managers
         
         private void Start()
         {
-            InvokeRepeating(nameof(GenerateVampire), 0, 0.5f);
+            InvokeRepeating(nameof(GenerateVampire), 2, 0.5f);
         }
 
 
@@ -29,7 +30,8 @@ namespace _Scripts.Managers
             
             if (UnityEngine.Random.value > _vampSpawnRate)
             {
-                _vampSpawnRate += 0.01f;
+                _vampSpawnRateIncrease = 0.01f;
+                _vampSpawnRate += _vampSpawnRateIncrease;
                 return;
             }
             var randomIndex = UnityEngine.Random.Range(0, _startLocations.Length);

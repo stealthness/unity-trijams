@@ -24,8 +24,8 @@ namespace _Scripts.Core
         [SerializeField] private int dir;
         [SerializeField] private float ghoulsSpeed = 1f;
         [SerializeField] private int ghoulsHealth = 3;
-        [SerializeField] private bool _stunned = false;
-        [SerializeField] private bool _isDead = false;
+        [SerializeField] private bool isStunned = false;
+        [SerializeField] private bool isDead = false;
 
 
         private void Awake()
@@ -41,20 +41,20 @@ namespace _Scripts.Core
         
         private void Start()
         {
-            if (_stunned)
+            if (isStunned)
             {
                 return;
             }
             
             _animator.Play("Moving");
-            _isDead = false;
+            isDead = false;
             CheckDirection();
         }
         
         
         private void Update()
         {
-            if (_stunned)
+            if (isStunned)
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace _Scripts.Core
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_isDead)
+            if (isDead)
             {
                 return;
             }            
@@ -104,7 +104,7 @@ namespace _Scripts.Core
 
         private void StunGhoul()
         {
-            _stunned = true;
+            isStunned = true;
             _animator.Play("Stun");
             _stars.SetActive(true);
             _audioSource.Play();
@@ -116,7 +116,7 @@ namespace _Scripts.Core
             ghoulsHealth--;
             if (ghoulsHealth <= 0)
             {
-                _isDead = true;
+                isDead = true;
                 Die();
                 
             }
@@ -141,7 +141,7 @@ namespace _Scripts.Core
         
         private void StunCooldown()
         {
-            _stunned = false;
+            isStunned = false;
             _animator.Play("Moving");
             _stars.SetActive(false);
         }

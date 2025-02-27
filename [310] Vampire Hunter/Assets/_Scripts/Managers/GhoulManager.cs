@@ -7,10 +7,11 @@ namespace _Scripts.Managers
     public class GhoulManager : MonoBehaviour
     {
         
-        [field: SerializeField] public Transform[] _startLocations;
+        
         [field: SerializeField] public Door leftDoor;
         [field: SerializeField] public Door rightDoor;
         private float _spawnRate = 0.2f;
+        private Door _door;
         
         
         public GameObject ghoulPrefab;
@@ -19,35 +20,40 @@ namespace _Scripts.Managers
         {
             leftDoor.Close();
             rightDoor.Close();
-            InvokeRepeating(nameof(GenerateGhoul), 2, 1f);
+            InvokeRepeating(nameof(GenerateGhoulEvent), 2, 3f);
         }
         
         
-        private void GenerateGhoul()
+        private void GenerateGhoulEvent()
         {
 
-            var door = leftDoor;
-            
             if (Random.value > _spawnRate)
             {
-                _spawnRate += 0.01f;
                 return;
             }
-            if (Random.value > 0.5f)
-            {
-                 door = rightDoor;
-            }
             
-            door.Open();
-            var ghoul = Instantiate(ghoulPrefab, door.transform.position, Quaternion.identity);
-            ghoul.GetComponent<Ghoul>().target = FindFirstObjectByType<PlayerController>().transform;
-            Invoke(nameof(CloseDoor), 2f);
+            _door = GetDoor();
+            _door.Open();
+            _spawnRate += 0.01f;
+            Invoke(nameof(DelayedGhoulSpawn), 1f);
+
+        }
+
+        private Door GetDoor()
+        {
+            return (Random.value > 0.5f) ? leftDoor : rightDoor;
+        }
+
+        private void DelayedGhoulSpawn()
+        {
+                var ghoul = Instantiate(ghoulPrefab, _door.transform.position, Quaternion.identity);
+                ghoul.GetComponent<Ghoul>().target = FindFirstObjectByType<PlayerController>().transform;
+                Invoke(nameof(CloseDoor), 1f); 
         }
         
         private void CloseDoor()
         {
-            leftDoor.Close();
-            rightDoor.Close();
+            _door.Close();
         }
     }
 }

@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -9,13 +10,14 @@ namespace _Scripts.Player
     [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerSideways2DMovement : MonoBehaviour
     {
-        private const float PLAYER_SPEED = 3f;
-        private const float BOLT_SPEED = 16f;
+        private const float PlayerSpeed = 2f;
+        private const float BoltSpeed = 16f;
         
-        Collider2D _collider;
-        Rigidbody2D _rigidbody;
-        SpriteRenderer _spriteRenderer;
-        float _dir = 0;
+        private Collider2D _collider;
+        private Animator _animator;
+        private Rigidbody2D _rigidbody;
+        private SpriteRenderer _spriteRenderer;
+        private float _dir = 0;
 
         public GameObject boltPrefab;
 
@@ -25,17 +27,38 @@ namespace _Scripts.Player
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
+        }
+
+
+        private void Start()
+        {
+            _spriteRenderer.flipX = false;
         }
 
         private void Update()
         {
-            _rigidbody.linearVelocityX = _dir * PLAYER_SPEED;
+            if (_dir == 0)
+            {
+                Stop();
+                return;
+            }
+            _rigidbody.linearVelocityX = _dir * PlayerSpeed;
         }
 
 
         public void SetDirection(float dir)
         {
-            _dir = dir * PLAYER_SPEED;
+            _dir = dir;
+            
+            if (_dir == 0)
+            {
+                Stop();
+                return;
+            }
+            
+            _animator.Play("Walk");
+            _dir = dir * PlayerSpeed;
             CheckDirection();
         }
 
@@ -66,7 +89,13 @@ namespace _Scripts.Player
                 bolt.GetComponent<SpriteRenderer>().flipX = false;
             }
             
-            bolt.GetComponent<Rigidbody2D>().linearVelocityX = boltDir * BOLT_SPEED;
+            bolt.GetComponent<Rigidbody2D>().linearVelocityX = boltDir * BoltSpeed;
+        }
+
+        public void Stop()
+        {
+            _rigidbody.linearVelocityX = 0;
+            _animator.Play("Idle");
         }
     }
 }
