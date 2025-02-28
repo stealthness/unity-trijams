@@ -91,7 +91,7 @@ namespace _Scripts.Core
         
         private void BatDeath()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
 
