@@ -1,29 +1,30 @@
+using System;
 using UnityEngine;
 
 namespace _Scripts.Core
 {
     
 
-    [RequireComponent(typeof(Rigidbody2D))]
+ 
     [RequireComponent(typeof(Collider2D))]
     public abstract class Movement2D : MonoBehaviour
     {
 
-        protected Rigidbody2D _rigidbody2D;
-        protected Collider2D _collider2D;
+       
+
 
         [SerializeField] protected float speed = 5f;
+        private Vector2 _dir;
 
-        protected virtual void Awake()
+
+        private void Update()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _collider2D = GetComponent<Collider2D>();
+            transform.Translate(_dir  * (speed * Time.deltaTime));
         }
-        
-        
-        protected virtual void OnMove(Vector2 direction)
+
+        protected internal virtual void OnMove(Vector2 direction)
         {
-            _rigidbody2D.linearVelocity = direction * speed;
+            _dir = direction;
         }
     }
 }
