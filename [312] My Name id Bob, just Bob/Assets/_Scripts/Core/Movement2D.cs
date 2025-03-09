@@ -21,7 +21,7 @@ namespace _Scripts.Core
 
 
         [SerializeField] protected float speed = 5f;
-        private Vector2 _dir;
+        protected Vector2 _dir;
 
 
         private void Update()

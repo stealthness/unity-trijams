@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Scripts.Managers
@@ -5,12 +6,12 @@ namespace _Scripts.Managers
     /// <summary>
     /// This is a generic GameManager class that can be used in any game.
     /// </summary>
-    public abstract class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
 
         public static GameManager Instance;
         
-        [SerializeField] private bool activateStartMenuOnStart = true;
+        [SerializeField] private bool activateStartMenuOnStart = false;
         private GameState gameState;
 
         private void Awake()
@@ -39,6 +40,18 @@ namespace _Scripts.Managers
             {
                 Time.timeScale = 0;
                 gameState = GameState.StartMenu;
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnTogglePause(true);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                OnRestartGame();
             }
         }
 
@@ -71,6 +84,12 @@ namespace _Scripts.Managers
             {
                 Time.timeScale = 1;
             }
+        }
+        
+        void OnGameOver()
+        {
+            Time.timeScale = 0;
+            gameState = GameState.GameOver;
         }
         
     }

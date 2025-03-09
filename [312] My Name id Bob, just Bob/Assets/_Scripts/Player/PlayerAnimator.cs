@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -17,13 +16,27 @@ namespace _Scripts.Player
 
         private void Start()
         {
-            _animator.Play("Idle");
+            _animator.Play(AnimationStrings.Walk);
         }
         
         
-        public void PLayAnimation(string animationName)
+        public void PlayAnimation(string animationName)
         {
             _animator.Play(animationName);
+        }
+
+        public float GetAnimationLength(string animationName)
+        {
+            var clip = _animator.runtimeAnimatorController.animationClips;
+            foreach (var animationClip in clip)
+            {
+                if (animationClip.name == animationName)
+                {
+                    return animationClip.length;
+                }
+            }
+
+            return 0;
         }
     }
 }
